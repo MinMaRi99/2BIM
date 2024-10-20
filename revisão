@@ -1,1 +1,105 @@
+/*COMANDOS/*
+//let,const = variaveis
+//if,for,while,else = condicionais
+//label: permite que a indicação de uma posição que pode ser utilizado com continue e break para salto dentro de um loop (laço)
+//continue: Salta para loop ou para loop que está após label indicado.
+//break;Sai fora do loop corrente ou do loop que esta após label informado.
+//elemento.textContent alteração de conteudo
+//push(): Adiciona um elemento ao final do array.
+//unshift(): Adiciona um elemento ao início do array.
+//pop(): Remove o último elemento do array.
+//shift(): Remove o primeiro elemento do array.
+//map(): Cria um novo array com os resultados da chamada de uma função em cada elemento do array original.
+//filter(): Cria um novo array com todos os elementos que passam em um teste (função).
+//reduce(): Aplica uma função a cada elemento do array (da esquerda para a direita) e reduz o array a um único valor.
+//sort(): Ordena os elementos do array
+//find(): Retorna o primeiro elemento que satisfaz a função fornecida
+//every(): Verifica se todos os elementos do array satisfazem uma condição
+//some(): Verifica se pelo menos um elemento do array satisfaz uma condição.
+//export: tornar variaveis ou funçoes disponiveis em outros arquivos
+//import: usar oq foi exportado em outro arquivo
+//toUpperCase(): Converte a string para maiúsculas
+//toLowerCase(): Converte a string para minúsculas.
+//includes(): Verifica se um valor está no array
+//Date(): Cria um novo objeto de data.
+//getFullYear(): Retorna o ano completo.
+//getMonth(): Retorna o mês (0-11, onde 0 é janeiro).
 
+/*FUNÇOES/*
+//function:  identificador (argumento1, argumento2, argumento3 /*, ... */ //Instruções; corpo da função.
+// Arrow function: Sintaxe mais curta para funções.
+// async function: uma função que permite usar await dentro dela.pr esperar por Promises. 
+
+/*Manipulação de arrays*/
+//frutas.push("uva"); // Adiciona
+//frutas.pop(); // Remove o último
+/*manip de DOM*/
+// document.getElementById(" "): Selecionar um Elemento
+// addEventListener("´evento´", function() { ... })Adicionar o Evento: 
+
+/*OBJETO/*
+Podem ser declarados com propriedades e valores delimitados por chaves {}, ou através de funções.
+
+/*OPERADORES/*
+//=: atribui valor a uma variável
+//++ Incrementa valor de uma variável, x++ é o mesmo que x=x+1
+//--Decrementa valor de uma variável, x-- é o mesmo que x=x-1.
+//== Igual.
+//!= Diferente.
+//=== Estritamente igual (verifica conteúdo e tipo da variável).
+//!== Estritamente diferente (verifica conteúdo e tipo da variável);
+//< Menor que.
+//<= Menor ou igual a.
+//> Maior que.
+//>= Maior ou igual a.
+//% Módulo.
+//+Soma
+//-Subtração.
+//*Multiplicação
+// / Divisao
+// && E.
+// || Ou.
+// ! Não.
+//delete variável: Elimina um objeto que esteja sendo referenciada pela variável, se a variável for uma propriedade de um objeto, limpa esta referência do objeto.
+//propriedade in objeto Retorna true caso a propriedade esteja contida no objeto.
+// objeto instanceof TipoDoObjeto Retorna true caso o objeto seja de determinado tipo.
+//typeof objeto Retorna string contendo o tipo do objeto.
+//this Representa a instância do objeto corrente.
+//void (expressão) Resolve expressão, porém ignora valor retornado.
+//true || qualquer coisa = true 
+//false && qualquer coisa = false
+//if (a !== 0 && 1/a > 0.5) {
+    //...
+}
+/*VARIAVEIS/*
+https://pt.wikibooks.org/wiki/JavaScript/Vari%C3%A1veis
+
+/*JSON/*
+//JSON.stringify() Converte um objeto em uma string JSON
+//JSON.rawJSON()  método estático cria um objeto "JSON bruto" contendo um pedaço de texto JSON.
+//JSON.parse()  Converte uma string JSON de volta em um objeto
+
+/*API/*
+// consoleobjeto fornece acesso ao console de depuração 
+// console.log(): Para imprimir mensagens no console.
+// console.table() Exibe dados em formato de tabela no console.
+// console.time() método estático inicia um timer que você pode usar para rastrear quanto tempo uma operação leva.
+// console.info() método estático emite uma mensagem para o console no nível de log "info". 
+// console;assert() Escreve uma mensagem de erro para o console se a afirmação é falsa. Se a firmação é verdadeira, nada acontece.
+// console.clear() limpa o console, se o ambiente permitir.
+// Console.count() Exibe o número de vezes em que a chamada count() em particular foi invocada. Essa função recebe um argumento opcional label.
+// console.countReset() método estático zera o contador usado com console.count().
+// console.debug()método estático emite uma mensagem para o console no nível de log "debug".
+// console.warn(): Para avisos.
+// console.error(): Para imprimir erros.
+// console.group()método estático cria um novo grupo embutido no log do console Web , fazendo com que quaisquer mensagens subsequentes do console sejam recuadas por um nível adicional, até que console.groupEnd()seja chamado.
+// Fetch('Api_Address') método para chamar uma API em JS
+// .then(response => {...}) é chamado quando a Promise do fetch é resolvida. O parâmetro response contém a resposta da requisição.
+// if (response.ok) { ... }: é uma propriedade que verifica se a resposta da API foi bem-sucedida
+// return response.json();: Se a resposta for bem-sucedida, é chamado para converter a resposta da API em formato JSON.
+// .then(data => { ... }): then: Um método que registra uma função a ser executada quando uma Promise é resolvida, recebendo o resultado da Promise como argumento.
+// .catch(error => { ... }): Um método que registra uma função a ser executada quando uma Promise é rejeitada, permitindo o tratamento de erros de forma assíncrona.
+// try: Você coloca o código que pode causar um erro dentro de um bloco try.
+// catch: Se um erro acontecer, o código dentro do bloco catch será executado. Você pode usar esse bloco para lidar com o erro.
+// 
+// 
