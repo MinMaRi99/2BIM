@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Você está afim do seu melhor amigo?</title>
+    <style>
+        #formulário {
+        width: 373px;
+        margin: 0 auto;
+        background-color: rgb(247, 23, 210); /* Cor de fundo do formulário */
+        padding: 10px; 
+        border-radius: 10px;
+      }
+      #resultado {
+        background-color: rgb(0, 0, 0);
+        width: 325px;
+        margin: 15px auto; 
+        border-radius: 5px;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        color: rgb(0, 0, 0);
+        background-color: rgb(245, 202, 232);
+        margin: 0 auto;
+        justify-content: center; 
+        align-items: center; 
+      } 
+      h2 {
+        color: rgb(253, 0, 0);
+        text-align: center;
+      } 
+      select {
+            background-color: rgb(255, 255, 255); /* Cor de fundo branca */
+            color: rgb(0, 0, 0); /* Cor do texto preta */
+            border: 1px solid #ccc; /* Borda suave */
+            padding: 5px; /* Um pouco de espaçamento interno */
+            border-radius: 5px; /* Bordas arredondadas */
+      }
+    </style>
+</head>
+<body>
+    <h2>Será que estou Afim do meu Melhor Amigo?</h2>
+    <div id="formulário">
+       <label>A)Você já sonhou que seu melhor amigo era um unicórnio voando sobre arco-íris cor-de-rosa enquanto segurava um buquê de salsichas?</label>
+       <select id="resposta1">
+         <option value="sim">Sim</option>
+         <option value="não">Não</option>
+       </select> <br><br>
+       <label>B)Você já se viu dançando a dança do frango em homenagem ao aniversário do seu melhor amigo, vestida de pinguim?</label>
+       <select id="resposta2">
+         <option value="sim">Sim</option>
+         <option value="não">Não</option>
+       </select> <br><br>
+       <label>C)Se seu melhor amigo fosse um sorvete, ele seria o sorvete de pistache?</label>
+       <select id="resposta3">
+         <option value="sim">Sim</option>
+         <option value="não">Não</option>
+       </select> <br><br>
+       <label>D)Você pensa em patos de borracha quando olha para o seu melhor amigo?</label>
+       <select id="resposta4">
+         <option value="sim">Sim</option>
+         <option value="não">Não</option>
+       </select> <br><br>
+       <label>E)Você já escreveu um poema de amor épico para o seu melhor amigo usando apenas emojis de vegetais? </label>
+       <select id="resposta5">
+         <option value="sim">Sim</option>
+         <option value="não">Não</option>
+       </select> <br><br>
+       <label>F)Você acha que seu melhor amigo seria um bom companheiro numa luta contra zumbis alienígenas usando almofadas como armas?</label>
+       <select id="resposta6">
+         <option value="sim">Sim</option>
+         <option value="não">Não</option>
+       </select> <br><br>
+       <button type="button" onclick="descobrir()">Resultado</button>
+    </div>
+    <div id="resultado"></div>
+<script>
+function descobrir(){
+    let resposta1 = document.getElementById('resposta1').value
+    let resposta2 = document.getElementById('resposta2').value;
+    let resposta3 = document.getElementById('resposta3').value;
+    let resposta4 = document.getElementById('resposta4').value;
+    let resposta5 = document.getElementById('resposta5').value;
+    let resposta6 = document.getElementById('resposta6').value;
+
+    let respostasNumericas = [
+            resposta1 === "sim" ? 1 : 0,
+            resposta2 === "sim" ? 1 : 0,
+            resposta3 === "sim" ? 1 : 0,
+            resposta4 === "sim" ? 1 : 0,
+            resposta5 === "sim" ? 1 : 0,
+            resposta6 === "sim" ? 1 : 0
+    ];
+    let resultadofinal = respostasNumericas.reduce((a, b) => a + b, 0);
+    let resultado;
+
+    let respostafinal = 1 + 2 + 3 + 4 + 5 + 6 
+
+    if (resultadofinal <= 2) {
+      resultado = "você colocou seu melhor amigo na friendzone. O que é ótimo porque talvez ele seja apenas seu amigo "
+    } else if (resultadofinal <= 3 && resultadofinal < 5) {
+      resultado = "Talvez haja amor, talvez seja hormônios. Vale a pena experimentar uns cinco minutos de trocação de beijo sem estragar a amizade."
+    } else { 
+      resultado = "É o amor /Que mexe com minha cabeça e me deixa assim/ Que faz eu pensar em você e esquecer de mim/ Que faz eu esquecer que a vida é feita pra viver"    
+    }
+    document.getElementById('resultado').innerText = resultado;
+}
+</script>
+</body>
+</html>
