@@ -1,0 +1,99 @@
+<!--Gerenciador de Tarefas-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <style>
+        #formulario {
+            width: 373px;
+            margin: 0 auto;
+            background-color: rgb(247, 23, 210);
+            padding: 10px; 
+            border-radius: 10px;
+        }
+        #resultado {
+            background-color: rgb(0, 0, 0);
+            width: 325px;
+            margin: 15px auto; 
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            background-color: rgb(245, 202, 232);
+            margin: 0 auto;
+            justify-content: center; 
+            align-items: center; 
+        } 
+        h2 {
+            color: rgb(0, 0, 0);
+            text-align: center;
+        } 
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgb(0, 153, 255);
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: rgb(0, 120, 200);
+        }
+    </style>
+</head>
+<body>
+    <div id="formulario">
+        <h2>Gerenciador de Tarefas</h2>
+        <input type="text" id="tarefa" placeholder="Adicione uma nova tarefa..." />
+        <button onclick="adicionarTarefa()">Adicionar Tarefa</button>
+    </div>
+    <div id="resultado"></div>
+
+    <script>
+        const tarefas = [];
+
+        function adicionarTarefa() {
+            const tarefaInput = document.getElementById('tarefa');
+            const tarefa = tarefaInput.value.trim();
+
+            if (tarefa) {
+                tarefas.push(tarefa);
+                tarefaInput.value = '';
+                exibirTarefas();
+            } else {
+                alert('Por favor, insira uma tarefa.');
+            }
+        }
+
+        function exibirTarefas() {
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = ''; // Limpa resultados anteriores
+            
+            tarefas.forEach((tarefa, index) => {
+                const div = document.createElement('div');
+                div.innerHTML = `${tarefa} <button onclick="removerTarefa(${index})">Remover</button>`;
+                resultado.appendChild(div);
+            });
+        }
+
+        function removerTarefa(index) {
+            tarefas.splice(index, 1);
+            exibirTarefas();
+        }
+    </script>
+</body>
+</html>
