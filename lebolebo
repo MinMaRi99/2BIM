@@ -1,0 +1,539 @@
+<!--de acordo com estes conteudos: 1:(<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>datas e jogos </title>
+    <style>
+        div {border: 1px solid black;padding: 3px;
+            margin-bottom: 5px; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <h2>Jogos: 
+        <select id="data" onchange="show_play()">
+            <option value="">Select a date...</option>
+        </select></h2>
+    <p id="resultado"></p>
+    
+<script >
+//Define a URL que será usada para buscar os dados das partidas da Copa
+const url_datas=https://worldcupjson.net/matches;
+//Faz uma requisição HTTP para obter os dados da URL.
+fetch(url_datas)
+//Converte a resposta da requisição em formato JSON.
+  .then(response => response.json())
+  //chama a função com os dados concluídos
+  .then(datas => list_dates(datas));
+
+//função que será responsável por processar os dados e preencher um elemento <select> com as datas disponíveis.
+function list_dates(datas) {
+    let select=document.getElementById('data');
+    //Cria um conjunto (Set) para armazenar datas únicas.
+    const dates=new Set();
+    for (let data of datas) {
+        let NovaData=data.datetime.split('T')[0];
+        dates.add(NovaData);
+    }
+    //Itera sobre o conjunto de datas e cria uma nova opção para cada uma.
+    for (let date of Array.from(dates)) {
+        let novaOpcao = new Option(date, date);
+        select.options[select.options.length] = novaOpcao;
+    }
+}
+//função usada para mostrar os jogos da data selecionada pelo usuário.
+function show_play() {
+    let data=document.getElementById('data').value;
+    let url_jogos=https://worldcupjson.net/matches;
+    fetch(url_jogos)
+      .then(response => response.json())
+      .then(jogos => {
+        let resultado=document.getElementById('resultado');
+        resultado.innerHTML='';
+        //Itera sobre cada jogo nos dados.
+        for (let jogo of jogos) {
+            if (jogo.datetime.startsWith(data)) {
+                let div = document.createElement("div");
+                div.innerHTML = ${jogo.home_team_country} ${jogo.home_team.goals} 
+                (${jogo.home_team.penalties}) X (${jogo.away_team.penalties}) 
+                ${jogo.away_team.goals} ${jogo.away_team_country} <br><br>
+                //Adiciona a div criada ao elemento resultado.
+                resultado.appendChild(div)
+            }
+        }
+    });
+}
+</script>
+
+</body>
+</html>) 2: (<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jogo especifico</title>
+</head>
+<body>
+    <h2>Detalhes dos jogos</h2>
+    <label>Selecione o jogo: </label>
+    <select id="jogo" onchange="mostrar_detalhes()">
+        <option value="">Selecione um jogo...</option>
+    </select>
+    <p id="resultado"></p>
+
+<script>
+const url_jogos=https://worldcupjson.net/matches;
+fetch(url_jogos)
+   .then(response => response.json())
+   .then(jogos => liste_jogos(jogos));
+
+//função responsável por preencher um elemento <select> com opções de jogos.
+function liste_jogos(jogos) {
+    let select=document.getElementById("jogo");
+    for (let jogo of jogos) {
+        let novaOpcao=new Option(${jogo.home_team_country} X ${jogo.away_team_country}, jogo.id)
+        //Adiciona a nova opção ao final da lista de opções do <select>.
+        select.options[select.options.length] = novaOpcao;
+    }
+}
+
+//função responsável por exibir os detalhes de um jogo selecionado.
+function mostrar_detalhes() {
+    let jogo_id=document.getElementById('jogo').value;
+    let resultado=document.getElementById("resultado");
+    resultado.innerHTML='';
+    const url_detalhes=https://worldcupjson.net/matches;
+    fetch(url_detalhes)
+       .then(response => response.json())
+       .then(dados => {
+        for (let dado of dados) {
+            if (dado.id == jogo_id) {
+                let div=document.createElement('div');
+                let vencedor = 0;
+                if (dado.winner_code === dado.home_team.country) {
+                    vencedor = 'Vencedor: ' + dado.home_team.name;
+                } else if (dado.winner_code === dado.away_team.country) {
+                    vencedor= 'Vencedor: '+ dado.away_team.name; 
+                }else {
+                    vencedor = 'Vencedor: Empate';
+                }
+                
+                div.innerHTML = ${dado.home_team.name} ${dado.home_team.goals} (${dado.home_team.penalties})
+                X (${dado.away_team.penalties}) ${dado.away_team.goals} ${dado.away_team.name} <br><br>
+                <b>${vencedor}<b/>;
+                resultado.appendChild(div)
+            }
+        }
+       }
+       );
+}
+</script>
+
+</body>
+</html>) 3:(<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jogos de uma equipe</title>
+    <style>
+        div {border: 1px solid black;padding: 3px;
+            margin-bottom: 5px; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <h1>Jogos de uma equipe</h1>
+    <label>Selecione a equipe:</label>
+    <select id="equipe" onchange="mostrar_jogos()">
+        <option value="">equipe...</option>
+    </select>
+    <p id="resultado"></p>
+
+<script>
+const url_equipe=https://worldcupjson.net/matches;
+fetch(url_equipe)
+   .then(response => response.json())
+   .then(equipes => listar_equipes(equipes))
+
+//função responsável por listar todas as equipes em um elemento <select>.
+function listar_equipes(equipes) {
+    let select=document.getElementById('equipe');
+    let times= new Set();
+    for (let equipe of equipes) {
+        times.add(equipe.home_team_country);
+        times.add(equipe.away_team_country);
+    }
+    for (let time of Array.from(times)) {
+        let novaOpcao=new Option(time, time);
+        select.options[select.options.length] = novaOpcao;
+    }
+}
+
+//função responsável por exibir os jogos em que uma equipe específica participou.
+function mostrar_jogos() {
+    let time=document.getElementById('equipe').value;
+    let url_jogos=https://worldcupjson.net/matches;
+    fetch(url_jogos)
+      .then(response => response.json())
+      .then(jogos => {
+        let resultado=document.getElementById("resultado");
+        resultado.innerHTML='';
+        for (let jogo of jogos) {
+            if (jogo.home_team_country == time || jogo.away_team_country == time) {
+                let div=document.createElement('div');
+                div.innerHTML=Data: ${jogo.datetime.split('T')[0]}<br>
+                ${jogo.home_team_country} ${jogo.home_team.goals} (${jogo.home_team.penalties}) 
+                X (${jogo.away_team.penalties}) ${jogo.away_team.goals} ${jogo.away_team_country};
+                resultado.appendChild(div);
+            }
+        }
+      })
+}
+</script>
+
+</body>
+</html>) 4:(<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabelas de Times por Grupo</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        h2 {
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tabela de classificação dos grupos da Copa do Mundo 2022</h1>
+    <div id="resultado"></div>
+
+<script>
+const url_teams = 'https://worldcupjson.net/teams';
+const url_matches = 'https://worldcupjson.net/matches';
+
+fetch(url_teams)
+    .then(response => response.json())
+    .then(dados => {
+        fetch(url_matches)
+            .then(response => response.json())
+            .then(jogos => mostrar_tabela(dados, jogos));
+    })
+
+    //função responsável por processar os dados das equipes e dos jogos e exibir as tabelas no HTML.
+function mostrar_tabela(dados, jogos) {
+    const grupos = dados.groups;
+    const resultado = document.getElementById('resultado');
+
+    // Filtra apenas as partidas da fase de grupos
+    const jogos_fase_de_grupos = jogos.filter(jogo => jogo.stage_name === 'First stage');
+
+    // Objeto para armazenar estatísticas dos times
+    const estatisticas = {};
+
+    // Inicializa as estatísticas para cada time
+    for (const grupo of grupos) {
+        for (const team of grupo.teams) {
+            estatisticas[team.name] = {
+                played: 0,
+                won: 0,
+                drawn: 0,
+                lost: 0,
+                points: 0,
+                goalsFor: 0,
+                goalsAgainst: 0
+            };
+        }
+    }
+
+    // Calcula as estatísticas das partidas
+    for (const jogo of jogos_fase_de_grupos) {
+        const homeTeam = jogo.home_team.name;
+        const awayTeam = jogo.away_team.name;
+        const homeGoals = jogo.home_team.goals;
+        const awayGoals = jogo.away_team.goals;
+
+        estatisticas[homeTeam].played++;
+        estatisticas[awayTeam].played++;
+        estatisticas[homeTeam].goalsFor += homeGoals;
+        estatisticas[homeTeam].goalsAgainst += awayGoals;
+        estatisticas[awayTeam].goalsFor += awayGoals;
+        estatisticas[awayTeam].goalsAgainst += homeGoals;
+
+        //Verifica se o time da casa venceu.
+        if (homeGoals > awayGoals) {
+            estatisticas[homeTeam].won++;
+            estatisticas[awayTeam].lost++;
+            estatisticas[homeTeam].points += 3;
+        //Verifica se o time visitante venceu.
+        } else if (homeGoals < awayGoals) {
+            estatisticas[awayTeam].won++;
+            estatisticas[homeTeam].lost++;
+            estatisticas[awayTeam].points += 3;
+            //verifica empate
+        } else {
+            estatisticas[homeTeam].drawn++;
+            estatisticas[awayTeam].drawn++;
+            estatisticas[homeTeam].points++;
+            estatisticas[awayTeam].points++;
+        }
+    }
+
+    // objeto para armazenar os times classificados de cada grupo.
+    const classificados = {};
+    for (const grupo of grupos) {
+        // Ordena os times do grupo por pontos, saldo de gols e gols marcados
+        const timesOrdenados = grupo.teams
+        //criação de um novo array de objetos que combinam o nome do time com suas estatísticas associadas.
+            .map(team => ({
+                name: team.name,
+                // acessa e manipula as estatísticas de um time específico. 
+                ...estatisticas[team.name]
+            }))
+            .sort((a, b) => {
+                // Ordena primeiro pelos pontos.
+                if (a.points !== b.points) return b.points - a.points;
+                const saldoGolsA = a.goalsFor - a.goalsAgainst; //gols do time A
+                const saldoGolsB = b.goalsFor - b.goalsAgainst;//gols do time B
+                //Ordena pelo saldo de gols.
+                if (saldoGolsA !== saldoGolsB) return saldoGolsB - saldoGolsA;
+                return b.goalsFor - a.goalsFor;// Ordena pelos gols marcados em caso de empate no saldo de gols.
+            });
+
+        // Considera os dois primeiros times como classificados
+        classificados[grupo.letter] = timesOrdenados.slice(0, 2);
+    }
+
+    // Exibe a tabela para cada grupo
+    for (const grupo of grupos) {
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const tbody = document.createElement('tbody');
+
+        // Cabeçalho da Tabela
+        const headerRow = document.createElement('tr');
+        const headerCell = document.createElement('th');
+        headerCell.textContent = Grupo ${grupo.letter};
+        headerRow.appendChild(headerCell);
+
+        // Itera sobre as palavras do cabeçalho e cria as células correspondentes.
+        const palavras_head = [ 'Jogos', 'Vit', 'Emp', 'Der', 'Pts'];
+
+        for (const element of palavras_head) {
+            const header = document.createElement('th');
+            header.textContent = element;
+            headerRow.appendChild(header);
+        }
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Adiciona as equipes e suas estatísticas
+        for (const team of grupo.teams) {
+            const statsTeam = estatisticas[team.name];
+            const row = document.createElement('tr');
+            
+            row.innerHTML = 
+                <td>${team.name}</td>
+                <td>${statsTeam.played}</td>
+                <td>${statsTeam.won}</td>
+                <td>${statsTeam.drawn}</td>
+                <td>${statsTeam.lost}</td>
+                <td>${statsTeam.points}</td>
+            ;
+            
+            tbody.appendChild(row);
+        }
+
+        table.appendChild(tbody);
+        resultado.appendChild(table);
+
+        // Exibe quais times foram classificados
+        const classificadosParaFaseSeguinte = classificados[grupo.letter];
+        if (classificadosParaFaseSeguinte) {
+            const classificadosTable = document.createElement('table');
+            const classificadosThead = document.createElement('thead');
+            const classificadosTbody = document.createElement('tbody');
+            
+            // Cabeçalho da Tabela de Classificados
+            const classificadosHeaderRow = document.createElement('tr');
+            const classificadosHeaderCell = document.createElement('th');
+            classificadosHeaderCell.textContent = Classificados do Grupo ${grupo.letter};
+            classificadosHeaderRow.appendChild(classificadosHeaderCell);
+            
+            classificadosThead.appendChild(classificadosHeaderRow);
+            classificadosTable.appendChild(classificadosThead);
+            
+            // Adiciona os times classificados
+            for (const team of classificadosParaFaseSeguinte) {
+                const row = document.createElement('tr');
+                row.innerHTML = <td>${team.name}</td>;
+                classificadosTbody.appendChild(row);
+            }
+            
+            classificadosTable.appendChild(classificadosTbody);
+            resultado.appendChild(classificadosTable);
+        }
+    }
+}
+</script>
+
+</body>
+</html>) e 5:(<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado Final da Copa</title>
+    <style>
+  /* Estilos para o elemento com o id 'resultado' */
+#resultado {
+    text-align: center; /* Centraliza o texto horizontalmente dentro do elemento */
+    margin: 120px auto; /* Define uma margem superior e inferior de 120 pixels e centraliza o elemento horizontalmente */
+    max-width: 800px; /* Limita a largura máxima do elemento a 800 pixels */
+    font-size: 35px; /* Define o tamanho da fonte como 35 pixels */
+}
+
+/* Estilos para elementos com a classe 'centralizado' */
+.centralizado {
+    text-align: center; /* Centraliza o texto horizontalmente dentro do elemento */
+    margin: 100px; /* Define uma margem de 100 pixels em todos os lados do elemento */
+}
+
+/* Estilos para o elemento com o id 'TITULO' */
+#TITULO {
+    text-align: center; /* Centraliza o texto horizontalmente dentro do elemento */
+    margin: 50px auto; /* Define uma margem superior e inferior de 50 pixels e centraliza o elemento horizontalmente */
+    font-size: 50px; /* Define o tamanho da fonte como 50 pixels */
+}
+
+        .retangulo {
+            border: 4px solid #000; /* Define a borda do retângulo */
+            padding: 10px; /* Espaçamento interno entre o texto e a borda */
+            margin: 550px; /* Espaçamento externo ao redor do retângulo */
+            width: fit-content; /* Ajusta a largura do retângulo ao conteúdo */
+            background-color: #9b6363; /* Cor de fundo opcional */
+        }
+    </style>
+</head>
+<body>
+    
+    Início do contêiner principal com a classe 'retangulo' 
+<div class="retangulo">
+     Título principal dentro do contêiner 
+    <h2 id="TITULO">RESULTADO FINAL DA COPA</h2>
+    
+     Div que será utilizada para exibir resultados ou informações dinâmicas 
+    <div id="resultado"></div>
+    
+     Inclusão do arquivo JavaScript externo 'questaodeatividade05.js' 
+
+<script>
+// Define a URL para buscar os dados dos jogos da Copa do Mundo
+const url_final = https://worldcupjson.net/matches;
+
+// Faz uma requisição HTTP para a URL fornecida e espera uma resposta em formato JSON
+fetch(url_final)
+    .then(response => response.json()) // Converte a resposta da requisição em JSON
+    .then(finais => exibir_final(finais)); // Passa o JSON convertido para a função 'exibir_final'
+
+// Função para exibir os resultados finais dos jogos
+function exibir_final(finais) {
+    // Obtém o elemento HTML com o id 'resultado'
+    let resultado = document.getElementById('resultado');
+    
+    // Itera sobre cada item no array 'finais'
+    for (let final of finais) {
+        // Verifica se o estágio do jogo é "Final"
+        if (final.stage_name == "Final") {
+            // Cria um novo elemento 'div' para exibir o resultado
+            let div = document.createElement('div');
+            
+            // Declara uma variável para armazenar o campeão e vice-campeão
+            let campeao;
+            
+            // Determina o campeão e vice-campeão com base no resultado do jogo
+            if (final.winner == final.home_team.name) {
+                campeao = <b>campeão:</b><br>${final.home_team.name}<br><br>
+                <b>vice-campeão:</b><br>${final.away_team.name};
+            } else {
+                campeao = <b>campeão:</b><br>${final.away_team.name}<br><br>
+                <b>vice-campeão:</b><br>${final.home_team.name};
+            }
+            
+            // Define o conteúdo HTML da 'div' com o resultado do jogo e informações sobre o campeão e vice-campeão
+            div.innerHTML = ${final.home_team_country} ${final.home_team.goals}(${final.home_team.penalties}) X
+            (${final.away_team.penalties}) ${final.away_team.goals} ${final.away_team_country}
+            <br><br>${campeao};
+            
+            // Adiciona a 'div' criada ao elemento com o id 'resultado'
+            resultado.appendChild(div);
+        }
+    }
+}
+</script>
+
+</div>
+
+</body>
+</html>) 
+
+
+
+
+
+
+
+Faça questões diferentes destes com outro tipo de conteudo porem com o mesmo estilo de cod e resolva-os em html contendo dentro CSS: (<style> 
+        #formulário {
+        width: 373px;
+        margin: 0 auto;
+        background-color: rgb(247, 23, 210); /* Cor de fundo do formulário */
+        padding: 10px; 
+        border-radius: 10px;
+      }
+      #resultado {
+        background-color: rgb(0, 0, 0);
+        width: 325px;
+        margin: 15px auto; 
+        border-radius: 5px;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        color: rgb(0, 0, 0);
+        background-color: rgb(245, 202, 232);
+        margin: 0 auto;
+        justify-content: center; 
+        align-items: center; 
+      } 
+      h2 {
+        color: rgb(253, 0, 0);
+        text-align: center;
+      } 
+      select {
+            background-color: rgb(255, 255, 255); /* Cor de fundo branca */
+            color: rgb(0, 0, 0); /* Cor do texto preta */
+            border: 1px solid #ccc; /* Borda suave */
+            padding: 5px; /* Um pouco de espaçamento interno */
+            border-radius: 5px; /* Bordas arredondadas */
+      }
+    </style>) e javascript. -->
