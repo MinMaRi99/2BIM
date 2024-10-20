@@ -1,0 +1,81 @@
+<!--Busca de Filmes -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de Filmes</title>
+    <style>
+        #formulario {
+            width: 373px;
+            margin: 0 auto;
+            background-color: rgb(247, 23, 210);
+            padding: 10px; 
+            border-radius: 10px;
+        }
+        #resultado {
+            background-color: rgb(0, 0, 0);
+            width: 325px;
+            margin: 15px auto; 
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            background-color: rgb(245, 202, 232);
+            margin: 0 auto;
+            justify-content: center; 
+            align-items: center; 
+        } 
+        h2 {
+            color: rgb(0, 0, 0);
+            text-align: center;
+        } 
+        select {
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="formulario">
+        <h2>Busca de Filmes</h2>
+        <label for="categoria">Selecione uma categoria:</label>
+        <select id="categoria" onchange="buscarFilmes()">
+            <option value="">Escolha uma categoria...</option>
+            <option value="action">Ação</option>
+            <option value="comedy">Comédia</option>
+            <option value="drama">Drama</option>
+        </select>
+    </div>
+    <div id="resultado"></div>
+
+    <script>
+        function buscarFilmes() {
+            const categoria = document.getElementById('categoria').value;
+            const url = `https://api.sampleapis.com/movies/${categoria}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(filmes => exibirFilmes(filmes));
+        }
+
+        function exibirFilmes(filmes) {
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = ''; // Limpa resultados anteriores
+            filmes.forEach(filme => {
+                const div = document.createElement('div');
+                div.innerHTML = `<strong>${filme.title}</strong><br>${filme.releaseYear}<br>${filme.genre}<br><br>`;
+                resultado.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
+
