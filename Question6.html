@@ -1,0 +1,101 @@
+<!--Conversor de Moedas-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Moedas</title>
+    <style>
+        #formulario {
+            width: 373px;
+            margin: 0 auto;
+            background-color: rgb(247, 23, 210);
+            padding: 10px; 
+            border-radius: 10px;
+        }
+        #resultado {
+            background-color: rgb(0, 0, 0);
+            width: 325px;
+            margin: 15px auto; 
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            background-color: rgb(245, 202, 232);
+            margin: 0 auto;
+            justify-content: center; 
+            align-items: center; 
+        } 
+        h2 {
+            color: rgb(253, 0, 0);
+            text-align: center;
+        } 
+        input[type="number"], select {
+            width: calc(100% - 22px);
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgb(0, 153, 255);
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: rgb(0, 120, 200);
+        }
+    </style>
+</head>
+<body>
+    <div id="formulario">
+        <h2>Conversor de Moedas</h2>
+        <input type="number" id="valor" placeholder="Valor" />
+        <select id="moeda">
+            <option value="">Selecione a moeda</option>
+            <option value="USD">Dólar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+            <option value="JPY">Iene (JPY)</option>
+        </select>
+        <button onclick="converterMoeda()">Converter</button>
+    </div>
+    <div id="resultado"></div>
+
+    <script>
+        const taxasDeCambio = {
+            USD: 5.0, // Exemplo: 1 USD = 5 BRL
+            EUR: 6.0, // Exemplo: 1 EUR = 6 BRL
+            JPY: 0.04 // Exemplo: 1 JPY = 0.04 BRL
+        };
+
+        function converterMoeda() {
+            const valor = parseFloat(document.getElementById('valor').value);
+            const moeda = document.getElementById('moeda').value;
+            const resultado = document.getElementById('resultado');
+
+            if (!valor || !moeda) {
+                resultado.innerHTML = 'Por favor, insira um valor válido e selecione uma moeda.';
+                return;
+            }
+
+            const taxaDeCambio = taxasDeCambio[moeda];
+
+            if (!taxaDeCambio) {
+                resultado.innerHTML = 'Moeda não reconhecida.';
+                return;
+            }
+
+            const valorConvertido = (valor * taxaDeCambio).toFixed(2);
+            resultado.innerHTML = `Valor em ${moeda}: R$ ${valorConvertido}`;
+        }
+    </script>
+</body>
+</html>
