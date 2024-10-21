@@ -1,0 +1,107 @@
+<!--Questão 5: Dados de Ações
+Faça uma requisição para uma API de mercado financeiro (como Alpha Vantage) e exiba uma tabela com os preços de ações de uma determinada empresa. A tabela deve incluir:
+
+Nome da empresa
+Símbolo da ação
+Preço atual
+Variação do dia-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preços de Ações</title>
+    <style>
+        #formulário {
+            width: 373px;
+            margin: 0 auto;
+            background-color: rgb(247, 23, 210); /* Cor de fundo do formulário */
+            padding: 10px; 
+            border-radius: 10px;
+        }
+        #resultado {
+            background-color: rgb(0, 0, 0);
+            width: 325px;
+            margin: 15px auto; 
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            background-color: rgb(245, 202, 232);
+            margin: 0 auto;
+            justify-content: center; 
+            align-items: center; 
+        } 
+        h2 {
+            color: rgb(0, 0, 0);
+            text-align: center;
+        } 
+        select {
+            background-color: rgb(255, 255, 255); /* Cor de fundo branca */
+            color: rgb(0, 0, 0); /* Cor do texto preta */
+            border: 1px solid #ccc; /* Borda suave */
+            padding: 5px; /* Um pouco de espaçamento interno */
+            border-radius: 5px; /* Bordas arredondadas */
+        }
+    </style>
+</head>
+<body>
+    <h2>Consulta de Preços de Ações</h2>
+    <div id="formulário">
+        <label for="empresa">Selecione a empresa:</label>
+        <select id="empresa" onchange="mostrar_precos()">
+            <option value="">Selecione uma empresa...</option>
+            <option value="AAPL">Apple Inc. (AAPL)</option>
+            <option value="GOOGL">Alphabet Inc. (GOOGL)</option>
+            <option value="MSFT">Microsoft Corporation (MSFT)</option>
+            <!-- Adicione mais opções conforme necessário -->
+        </select>
+    </div>
+    <div id="resultado"></div>
+
+    <script>
+        const apiKey = 'SUA_CHAVE_DE_API_AQUI'; // Substitua pela sua chave de API
+        const url_base = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=1min&apikey=' + apiKey;
+
+        function mostrar_precos() {
+            const simbolo = document.getElementById('empresa').value;
+            if (!simbolo) {
+                document.getElementById('resultado').innerHTML = '';
+                return;
+            }
+            const url = `${url_base}&symbol=${simbolo}`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => exibir_precos(data, simbolo));
+        }
+
+        function exibir_precos(data, simbolo) {
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = '';
+
+            const serieTemporaria = data['Time Series (1min)'];
+            if (!serieTemporaria) {
+                resultado.innerHTML = 'Erro ao buscar dados. Verifique o símbolo.';
+                return;
+            }
+
+            const ultimoDado = Object.keys(serieTemporaria)[0];
+            const info = serieTemporaria[ultimoDado];
+
+            const tabelaHTML = `
+                <h3>Resultados para ${simbolo}</h3>
+                <p>Preço Atual: $${info['1. open']}</p>
+                <p>Variação do Dia: ${((info['1. open'] - info['4. close']) / info['4. close'] * 100).toFixed(2)}%</p>
+            `;
+
+            resultado.innerHTML = tabelaHTML;
+        }
+    </script>
+</body>
+</html>

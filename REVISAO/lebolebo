@@ -494,13 +494,13 @@ function exibir_final(finais) {
 </body>
 </html>) 
 
+Resolva (Questão 5: Dados de Ações
+Faça uma requisição para uma API de mercado financeiro (como Alpha Vantage) e exiba uma tabela com os preços de ações de uma determinada empresa. A tabela deve incluir:
 
-
-
-
-
-
-Faça questões diferentes destes com outro tipo de conteudo porem com o mesmo estilo de cod e resolva-os em html contendo dentro CSS: (<style> 
+Nome da empresa
+Símbolo da ação
+Preço atual
+Variação do dia) porem com o mesmo estilo de cod e resolva-os em html contendo dentro CSS: (<style> 
         #formulário {
         width: 373px;
         margin: 0 auto;
@@ -526,7 +526,7 @@ Faça questões diferentes destes com outro tipo de conteudo porem com o mesmo e
         align-items: center; 
       } 
       h2 {
-        color: rgb(253, 0, 0);
+        color: rgb(0, 0, 0);
         text-align: center;
       } 
       select {

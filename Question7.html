@@ -1,0 +1,94 @@
+<!--Questão 1: Requisição de Clima
+Faça uma requisição para uma API de clima (como OpenWeatherMap) e exiba uma tabela com as seguintes informações para uma cidade específica:
+
+Nome da cidade
+Temperatura atual
+Descrição do clima
+Umidade-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Clima</title>
+    <style>
+        #formulário {
+            width: 373px;
+            margin: 0 auto;
+            background-color: rgb(247, 23, 210);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #resultado {
+            background-color: rgb(0, 0, 0);
+            width: 325px;
+            margin: 15px auto;
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            background-color: rgb(245, 202, 232);
+            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+        }
+        h2 {
+            color: rgb(0, 0, 0);
+            text-align: center;
+        }
+        select {
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="formulário">
+        <h2>Consulta de Clima</h2>
+        <label for="cidade">Selecione a cidade:</label>
+        <select id="cidade" onchange="consultar_clima()">
+            <option value="">Escolha uma cidade...</option>
+            <option value="São Paulo">São Paulo</option>
+            <option value="Rio de Janeiro">Rio de Janeiro</option>
+            <option value="Belo Horizonte">Belo Horizonte</option>
+        </select>
+    </div>
+    <div id="resultado"></div>
+
+    <script>
+        function consultar_clima() {
+            const cidade = document.getElementById('cidade').value;
+            const apiKey = 'SUA_API_KEY'; // Substitua por sua chave de API do OpenWeatherMap
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKey}&units=metric`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Cidade não encontrada');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const resultado = document.getElementById('resultado');
+                    resultado.innerHTML = `
+                        <h3>Clima em ${data.name}</h3>
+                        <p>Temperatura: ${data.main.temp} °C</p>
+                        <p>Descrição: ${data.weather[0].description}</p>
+                        <p>Umidade: ${data.main.humidity} %</p>
+                    `;
+                })
+                .catch(error => {
+                    document.getElementById('resultado').innerHTML = `<p style="color:red;">${error.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!--Questão 4: Livros Recomendados
+Faça uma requisição para a API do Google Books e exiba uma tabela com os livros recomendados para um determinado autor. A tabela deve conter:
+
+Título do livro
+Autor
+Data de publicação
+Número de páginas-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livros Recomendados</title>
+    <style>
+        #formulário {
+            width: 373px;
+            margin: 0 auto;
+            background-color: rgb(247, 23, 210);
+            padding: 10px; 
+            border-radius: 10px;
+        }
+        #resultado {
+            background-color: rgb(0, 0, 0);
+            width: 325px;
+            margin: 15px auto; 
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(0, 0, 0);
+            background-color: rgb(245, 202, 232);
+            margin: 0 auto;
+            justify-content: center; 
+            align-items: center; 
+        } 
+        h2 {
+            color: rgb(0, 0, 0);
+            text-align: center;
+        } 
+        select {
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div id="formulário">
+        <h2>Livros Recomendados</h2>
+        <label>Autor:</label>
+        <input type="text" id="autor" placeholder="Digite o nome do autor..." />
+        <button onclick="buscarLivros()">Buscar</button>
+    </div>
+    
+    <div id="resultado"></div>
+
+    <script>
+        function buscarLivros() {
+            const autor = document.getElementById('autor').value;
+            const url = `https://www.googleapis.com/books/v1/volumes?q=inauthor:${encodeURIComponent(autor)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => exibirLivros(data.items))
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function exibirLivros(livros) {
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = ''; // Limpa resultados anteriores
+
+            if (!livros) {
+                resultado.innerHTML = 'Nenhum livro encontrado.';
+                return;
+            }
+
+            let tabela = '<table><tr><th>Título</th><th>Autor</th><th>Data de Publicação</th><th>Número de Páginas</th></tr>';
+
+            livros.forEach(livro => {
+                const titulo = livro.volumeInfo.title || 'N/A';
+                const autores = livro.volumeInfo.authors ? livro.volumeInfo.authors.join(', ') : 'N/A';
+                const dataPublicacao = livro.volumeInfo.publishedDate || 'N/A';
+                const numPaginas = livro.volumeInfo.pageCount || 'N/A';
+
+                tabela += `<tr>
+                    <td>${titulo}</td>
+                    <td>${autores}</td>
+                    <td>${dataPublicacao}</td>
+                    <td>${numPaginas}</td>
+                </tr>`;
+            });
+
+            tabela += '</table>';
+            resultado.innerHTML = tabela;
+        }
+    </script>
+</body>
+</html>
