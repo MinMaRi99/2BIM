@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta dos Prêmios Nobel</title>
+    <style>
+        #formulario {
+            width: 373px;
+            margin: 0 auto;
+            background-color: rgb(247, 23, 210);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #resultado {
+            background-color: rgb(0, 0, 0);
+            width: 500px;
+            margin: 15px auto;
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        input, button {
+            width: 90%;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background-color: rgb(53, 151, 235);
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="formulario">
+    <h2>Consulta Prêmio Nobel</h2>
+    <input type="number" id="ano" placeholder="Digite o ano (ex: 2022)" min="1901" max="2024">
+    <button onclick="consultarNobel()">Buscar</button>
+</div>
+
+<div id="resultado"></div>
+
+<script>
+    const urlBase = 'https://api.nobelprize.org/v1/prize.json';
+
+    function consultarNobel() {
+        const ano = document.getElementById('ano').value;
+        const urlConsulta = `${urlBase}?year=${ano}`;
+        const resultado = document.getElementById('resultado');
+
+        resultado.innerHTML = 'Carregando...';
+
+        fetch(urlConsulta)
+            .then(response => response.json())
+            .then(dados => exibirResultado(dados, ano))
+            .catch(() => {
+                resultado.innerHTML = 'Erro ao buscar os dados. Tente novamente.';
+            });
+    }
+
+    function exibirResultado(dados, ano) {
+        const premios = dados.prizes;
+        const resultado = document.getElementById('resultado');
+
+        if (premios.length === 0) {
+            resultado.innerHTML = `Não foram encontrados prêmios para o ano ${ano}.`;
+            return;
+        }
+
+        resultado.innerHTML = ''; 
+
+        premios.forEach(premio => {
+            const categoria = premio.category.charAt(0).toUpperCase() + premio.category.slice(1);
+            const motivacao = premio.laureates.map(laureado => laureado.motivation).join('; ');
+            const laureados = premio.laureates.map(laureado => laureado.firstname + ' ' + laureado.surname).join(', ');
+
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <h3>Categoria: ${categoria}</h3>
+                <p><b>Laureado(s):</b> ${laureados}</p>
+                <p><b>Motivação:</b> ${motivacao}</p>
+            `;
+            resultado.appendChild(div);
+        });
+    }
+</script>
+
+</body>
+</html>

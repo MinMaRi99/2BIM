@@ -494,46 +494,62 @@ function exibir_final(finais) {
 </body>
 </html>) 
 
-Resolva (Questão 5: Dados de Ações
-Faça uma requisição para uma API de mercado financeiro (como Alpha Vantage) e exiba uma tabela com os preços de ações de uma determinada empresa. A tabela deve incluir:
+Resolva (Desenvolver uma aplicação que exiba os feriados nacionais de um determinado ano,
+utilizando a API disponível em https://brasilapi.com.br/api/feriados/v1/{ano}. A
+aplicação deve ser composta por um arquivo HTML e um arquivo Javascript.
+1. A aplicação deve conter um campo de entrada onde o usuário possa digitar um ano
+e um botão para realizar a consulta.
+2. Ao clicar no botão, a aplicação deve fazer uma requisição para a API e recuperar os
+feriados nacionais do ano informado.
+3. Os feriados devem ser organizados por mês e exibidos no formato: dia - feriado.
+4. Todas as variáveis e funções do programa precisam estar escritos em português.
+5. A aplicação deve exibir:
+o O total de feriados do ano.
+o Para cada mês que contém feriados, deve ser exibido o nome do mês, a
+quantidade de feriados nesse mês entre parênteses, e a lista dos feriados
+desse mês.) 
+porem com o mesmo estilo dos outros cod acima e com exatamente este html: (<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Feriados Nacionais</title>
+</head>
+<body>
+    <h2>Consulta de Feriados Nacionais</h2>
+    <div id="formulário"></div>
+    <label for="texto">Digite o ano:</label>
+    <input type="text" id="ano" placeholder="Adicione o ano..." >
+    <button onclick="buscar_feriado()">Buscar Feriado</button><br><br><br>
+    <label>Total de feriados: 12</label>
+    <h3>Janeiro(1 feriado(s))</h3>
+    <p><strong>.</strong>1 - confraternização mundial</p> 
 
-Nome da empresa
-Símbolo da ação
-Preço atual
-Variação do dia) porem com o mesmo estilo de cod e resolva-os em html contendo dentro CSS: (<style> 
-        #formulário {
-        width: 373px;
-        margin: 0 auto;
-        background-color: rgb(247, 23, 210); /* Cor de fundo do formulário */
-        padding: 10px; 
-        border-radius: 10px;
-      }
-      #resultado {
-        background-color: rgb(0, 0, 0);
-        width: 325px;
-        margin: 15px auto; 
-        border-radius: 5px;
-        color: white;
-        padding: 10px;
-        text-align: center;
-      }
-      body {
-        font-family: Arial, sans-serif;
-        color: rgb(0, 0, 0);
-        background-color: rgb(245, 202, 232);
-        margin: 0 auto;
-        justify-content: center; 
-        align-items: center; 
-      } 
-      h2 {
-        color: rgb(0, 0, 0);
-        text-align: center;
-      } 
-      select {
-            background-color: rgb(255, 255, 255); /* Cor de fundo branca */
-            color: rgb(0, 0, 0); /* Cor do texto preta */
-            border: 1px solid #ccc; /* Borda suave */
-            padding: 5px; /* Um pouco de espaçamento interno */
-            border-radius: 5px; /* Bordas arredondadas */
-      }
-    </style>) e javascript. -->
+    <h3>Fevereiro( 1 feriado (s))</h3>
+    <p><strong>.</strong>21 -Carnaval </p>
+
+    <h3>Abril (3 feriados(s))</h3>
+    <p><strong>.</strong> 7 - Sexta-feira Santa</p> 
+    <p><strong>.</strong> 9 - Páscoa</p>
+    <p><strong>.</strong> 21 - Tiradentes </p>
+
+    <h3>Maio (1feriado(s))</h3>
+    <p><strong>.</strong> 1 - Dia do trabalho</p> 
+
+    <h3>Junho (1 feriado(s))</h3>
+    <p><strong>.</strong> 8 - Cospus Christi</p>
+
+    <h3>Setembro (1 feriado(s))</h3>
+    <p><strong>.</strong> 7- Independência do Brasil</p>
+
+    <h3>Outubro(1feriado(s)) </h3>
+    <div id="resultado"></div>
+    
+<script>
+
+</script>
+
+</body>
+</html>) contendo javascript dentro dele. -->
